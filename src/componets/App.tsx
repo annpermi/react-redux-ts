@@ -11,12 +11,30 @@ interface AppProps {
   deleteTodo: typeof deleteTodo;
 }
 
+interface AppState {
+  fetching: boolean;
+}
+
 //<> - generic
 //_App - avoid a name colution, ex
-export class _App extends React.Component<AppProps> {
+export class _App extends React.Component<AppProps, AppState> {
+  constructor(props: AppProps) {
+    super(props);
+
+    this.state = { fetching: false };
+  }
+
+  componentDidUpdate(prevProps: AppProps): void {
+    //if prevprops has no todos and current has
+    if (!prevProps.todos.length && this.props.todos.length) {
+      this.setState({ fetching: false });
+    }
+  }
+
   //:void --> don't expect this function return anything
   onButtonClick = (): void => {
     this.props.fetchTodos();
+    this.setState({ fetching: true });
   };
 
   onTodoClick = (id: number): void => {
@@ -38,6 +56,8 @@ export class _App extends React.Component<AppProps> {
     return (
       <div>
         <button onClick={this.onButtonClick}>Fetch</button>
+        <br />
+        {this.state.fetching && "Loading..."}
         {this.renderList()}
       </div>
     );
