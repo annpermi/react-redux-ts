@@ -1,12 +1,14 @@
 import React from "react";
 import { connect } from "react-redux";
-import { Todo, fetchTodos } from "../actions";
+import { Todo, fetchTodos, deleteTodo } from "../actions";
 import { StoreState } from "../reducers";
 import { todosReducers } from "../reducers/todos";
 
 interface AppProps {
   todos: Todo[];
-  fetchTodos(): any; //function
+  //   fetchTodos: typeof fetchTodos; //function
+  fetchTodos: Function; //function
+  deleteTodo: typeof deleteTodo;
 }
 
 //<> - generic
@@ -17,10 +19,18 @@ export class _App extends React.Component<AppProps> {
     this.props.fetchTodos();
   };
 
+  onTodoClick = (id: number): void => {
+    this.props.deleteTodo(id);
+  };
+
   //helper function
   renderList(): JSX.Element[] {
     return this.props.todos.map((todo: Todo) => {
-      return <div key={todo.id}>{todo.title}</div>;
+      return (
+        <div key={todo.id} onClick={() => this.onTodoClick(todo.id)}>
+          {todo.title}
+        </div>
+      );
     });
   }
 
@@ -40,4 +50,4 @@ const mapStateToProps = ({ todos }: StoreState): { todos: Todo[] } => {
   return { todos };
 };
 
-export const App = connect(mapStateToProps, { fetchTodos })(_App);
+export const App = connect(mapStateToProps, { fetchTodos, deleteTodo })(_App);
