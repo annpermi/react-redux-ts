@@ -2,7 +2,6 @@ import React from "react";
 import { connect } from "react-redux";
 import { Todo, fetchTodos, deleteTodo } from "../actions";
 import { StoreState } from "../reducers";
-import { todosReducers } from "../reducers/todos";
 
 interface AppProps {
   todos: Todo[];
@@ -25,7 +24,7 @@ export class _App extends React.Component<AppProps, AppState> {
   }
 
   componentDidUpdate(prevProps: AppProps): void {
-    //if prevprops has no todos and current has
+    //if prevProps has no todos and current has
     if (!prevProps.todos.length && this.props.todos.length) {
       this.setState({ fetching: false });
     }
@@ -57,7 +56,7 @@ export class _App extends React.Component<AppProps, AppState> {
       <div>
         <button onClick={this.onButtonClick}>Fetch</button>
         <br />
-        {this.state.fetching && "Loading..."}
+        {this.state.fetching ? "Loading..." : null}
         {this.renderList()}
       </div>
     );
