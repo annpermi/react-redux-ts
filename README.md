@@ -1,4 +1,6 @@
-# React + Redux + TypeScript Todo app
+# React + Redux + TypeScript 
+
+## Todo app
 
 Link to [Todo app](https://react-redux-typescript-anna.netlify.app/)
 
